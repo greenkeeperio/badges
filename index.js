@@ -24,7 +24,7 @@ require('./lib/rollbar')
   server.route({
     method: 'GET',
     path: '/',
-    handler: (request, reply) => reply('OK').type('text/plain')
+    handler: (request, reply) => reply({ok: true})
   })
 
   await server.register([{
