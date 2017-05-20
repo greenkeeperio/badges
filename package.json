@@ -17,7 +17,6 @@
     "rollbar": "^2.0.1"
   },
   "devDependencies": {
-    "bundle-dependencies": "^1.0.2",
     "nyc": "^10.1.2",
     "standard": "^10.0.2",
     "tap": "^10.0.1"
