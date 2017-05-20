@@ -24,7 +24,7 @@
   "engines": {
     "node": "7"
   },
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "publishConfig": {
     "access": "restricted"
   },
