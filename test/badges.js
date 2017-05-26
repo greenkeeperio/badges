@@ -166,25 +166,4 @@ const dbs = require('../lib/dbs')
 
     t.end()
   })
-
-  tap.test('returns payment required soon for private repo with token', async (t) => {
-    const {payments} = await dbs()
-
-    await payments.put({
-      _id: '123123',
-      plan: 'beta'
-    })
-
-    const {payload, statusCode} = await server.inject({
-      method: 'GET',
-      url: '/repo/payprivate.svg?token=' + crypto.createHmac('sha256', 'badges-secret').update('repo/payprivate').digest('hex')
-    })
-
-    t.is(statusCode, 200, 'statusCode')
-    t.ok(payload.includes('payment required soon'))
-    t.ok(payload.includes('Greenkeeper'))
-    t.ok(payload.includes('#555'))
-
-    t.end()
-  })
 })()

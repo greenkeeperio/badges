@@ -35,7 +35,7 @@
   "scripts": {
     "db:start": "./start-couchdb",
     "deploy": "./deploy",
-    "pretest": "standard && npm run db:start",
+    "pretest": "standard && npm run db:start && sleep 5",
     "start": "node --harmony_async_await index.js",
     "test": "nyc tap --node-arg=--harmony_async_await --no-cov ./test"
   },
