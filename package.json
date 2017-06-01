@@ -17,7 +17,7 @@
     "rollbar": "^2.0.1"
   },
   "devDependencies": {
-    "nyc": "^10.1.2",
+    "nyc": "^11.0.1",
     "standard": "^10.0.2",
     "tap": "^10.0.1"
   },
