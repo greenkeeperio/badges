@@ -166,4 +166,64 @@ const dbs = require('../lib/dbs')
 
     t.end()
   })
+
+  tap.test('returns enabled for paid private repo with token on Gihub Marketplace Team Plan', async (t) => {
+    const {repositories, payments} = await dbs()
+
+    await repositories.post({
+      _id: '1234',
+      type: 'repository',
+      fullName: 'repo/payprivate3',
+      private: true,
+      enabled: true,
+      accountId: '431413431'
+    })
+
+    await payments.put({
+      _id: '431413431',
+      plan: 'team'
+    })
+
+    const {payload, statusCode} = await server.inject({
+      method: 'GET',
+      url: '/repo/payprivate3.svg?token=' + crypto.createHmac('sha256', 'badges-secret').update('1234').digest('hex')
+    })
+
+    t.is(statusCode, 200, 'statusCode')
+    t.ok(payload.includes('enabled'))
+    t.ok(payload.includes('Greenkeeper'))
+    t.ok(payload.includes('#555'))
+
+    t.end()
+  })
+
+  tap.test('returns enabled for paid private repo with token on Gihub Marketplace Business plan', async (t) => {
+    const {repositories, payments} = await dbs()
+
+    await repositories.post({
+      _id: '12345',
+      type: 'repository',
+      fullName: 'repo/payprivate4',
+      private: true,
+      enabled: true,
+      accountId: '431413432'
+    })
+
+    await payments.put({
+      _id: '431413432',
+      plan: 'business'
+    })
+
+    const {payload, statusCode} = await server.inject({
+      method: 'GET',
+      url: '/repo/payprivate4.svg?token=' + crypto.createHmac('sha256', 'badges-secret').update('12345').digest('hex')
+    })
+    console.log('payload', payload)
+    t.is(statusCode, 200, 'statusCode')
+    t.ok(payload.includes('enabled'))
+    t.ok(payload.includes('Greenkeeper'))
+    t.ok(payload.includes('#555'))
+
+    t.end()
+  })
 })()

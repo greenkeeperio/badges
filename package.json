@@ -13,12 +13,12 @@
     "hot-shots": "^4.3.0",
     "lodash": "^4.16.2",
     "pouchdb-http": "^6.0.2",
-    "pouchdb-mapreduce": "^6.0.7",
+    "pouchdb-mapreduce": "^6.4.3",
     "rollbar": "^2.3.9"
   },
   "devDependencies": {
     "nyc": "^11.0.1",
-    "standard": "^10.0.2",
+    "standard": "^11.0.0",
     "tap": "^11.0.0"
   },
   "engines": {
