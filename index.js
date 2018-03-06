@@ -43,7 +43,7 @@ require('./lib/rollbar')
         }, {
           module: 'good-console'
         },
-          'stdout']
+        'stdout']
       }
     }
   }])
