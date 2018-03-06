@@ -14,7 +14,7 @@
     "lodash": "^4.16.2",
     "pouchdb-http": "^6.0.2",
     "pouchdb-mapreduce": "^6.4.3",
-    "rollbar": "^2.0.1"
+    "rollbar": "^2.3.9"
   },
   "devDependencies": {
     "nyc": "^11.0.1",
