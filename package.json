@@ -18,9 +18,7 @@
   },
   "devDependencies": {
     "jest": "^22.4.2",
-    "nyc": "^11.0.1",
     "standard": "^11.0.0",
-    "tap": "^11.0.0"
   },
   "engines": {
     "node": "7"
