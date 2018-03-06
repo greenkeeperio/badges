@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "jest": "^22.4.2",
-    "standard": "^11.0.0",
+    "standard": "^11.0.0"
   },
   "engines": {
     "node": "7"
@@ -31,14 +31,34 @@
     "type": "git",
     "url": "git+https://github.com/greenkeeperio/badges.git"
   },
+  "jest": {
+    "testRegex": "/test/.*\\.js$",
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "scripts": {
     "db:start": "./start-couchdb",
     "deploy": "./deploy",
     "pretest": "standard && npm run db:start && sleep 5",
     "start": "node index.js",
-    "test": "nyc tap --no-cov ./test"
+    "test": "NODE_ENV=testing jest"
   },
   "standard": {
+    "env": {
+      "jest": true
+    },
+    "globals": [
+      "jest",
+      "expect",
+      "describe",
+      "test",
+      "beforeAll",
+      "beforeEach",
+      "afterAll",
+      "afterEach"
+    ],
     "ignore": [
       "couchdb"
     ]
