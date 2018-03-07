@@ -43,7 +43,7 @@
     "deploy": "./deploy",
     "pretest": "standard && npm run db:start && sleep 5",
     "start": "node index.js",
-    "test": "NODE_ENV=development jest"
+    "test": "jest"
   },
   "standard": {
     "env": {
