@@ -314,6 +314,27 @@ describe('badges', async () => {
     expect(payload).toMatch(/#4c1/)
   })
 
+  test('returns for-the-badge style', async () => {
+    const { repositories } = await dbs()
+
+    await repositories.post({
+      type: 'repository',
+      fullName: 'Repo/public_enabled',
+      enabled: true
+    })
+
+    const { payload, statusCode } = await server.inject({
+      method: 'GET',
+      url: '/repo/public_enabled.svg?style=for-the-badge'
+    })
+
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/enabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
+    expect(payload).toMatch(/#4c1/)
+  })
+
   test('returns correct flat-square style even if used with other query', async () => {
     const { repositories, payments } = await dbs()
 
