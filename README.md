@@ -10,20 +10,28 @@ This is the webservice that is responsible for the Greenkeeper badges.
  - Available styles are `flat` `flat-square` and `plastic`
 
 ### Sample Badges
-- Flat style 
+- Flat style (default)
 
-    ![Greenkeeper flat](https://img.shields.io/badge/Greenkeeper-enabled-4c1.svg?colorA=555&style=flat)
+    ![Greenkeeper Enabledflat](https://img.shields.io/badge/Greenkeeper-enabled-4c1.svg?colorA=555&style=flat)
+    ![Greenkeeper Disabledflat](https://img.shields.io/badge/Greenkeeper-disabled-9f9f9f.svg?colorA=555&style=flat)
+    ![Greenkeeper NotFoundflat](https://img.shields.io/badge/Greenkeeper-not_found-9f9f9f.svg?colorA=555&style=flat)
+    ![Greenkeeper PayRequiredflat](https://img.shields.io/badge/Greenkeeper-payment_required-dfb317.svg?colorA=555&style=flat) 
 - Flat-square style
 
-    ![Greenkeeper square](https://img.shields.io/badge/Greenkeeper-enabled-4c1.svg?colorA=555&style=flat-square)
+    ![Greenkeeper Enabledsquare](https://img.shields.io/badge/Greenkeeper-enabled-4c1.svg?colorA=555&style=flat-square)
+    ![Greenkeeper Disabledsquare](https://img.shields.io/badge/Greenkeeper-disabled-9f9f9f.svg?colorA=555&style=flat-square)
+    ![Greenkeeper NotFoundsquare](https://img.shields.io/badge/Greenkeeper-not_found-9f9f9f.svg?colorA=555&style=flat-square)
+    ![Greenkeeper PayRequiredsquare](https://img.shields.io/badge/Greenkeeper-payment_required-dfb317.svg?colorA=555&style=flat-square) 
 - Plastic style
 
-    ![Greenkeeper plastic](https://img.shields.io/badge/Greenkeeper-enabled-4c1.svg?colorA=555&style=plastic)
-    
-### Other Badges
+    ![Greenkeeper Enabledplastic](https://img.shields.io/badge/Greenkeeper-enabled-4c1.svg?colorA=555&style=plastic)
+    ![Greenkeeper Disabledplastic](https://img.shields.io/badge/Greenkeeper-disabled-9f9f9f.svg?colorA=555&style=plastic)
+    ![Greenkeeper NotFoundplastic](https://img.shields.io/badge/Greenkeeper-not_found-9f9f9f.svg?colorA=555&style=plastic)
+    ![Greenkeeper PayRequiredplastic](https://img.shields.io/badge/Greenkeeper-payment_required-dfb317.svg?colorA=555&style=plastic) 
+- For-the-badge style
 
-![Greenkeeper Disabled](https://img.shields.io/badge/Greenkeeper-disabled-9f9f9f.svg?colorA=555&style=flat-square) 
-    
-![Greenkeeper NotFound](https://img.shields.io/badge/Greenkeeper-not_found-9f9f9f.svg?colorA=555&style=flat-square) 
-    
-![Greenkeeper PayRequired](https://img.shields.io/badge/Greenkeeper-payment_required-dfb317.svg?colorA=555&style=flat-square) 
+    ![Greenkeeper Enabledbadge](https://img.shields.io/badge/Greenkeeper-enabled-4c1.svg?colorA=555&style=for-the-badge)
+    ![Greenkeeper Disabledbadgec](https://img.shields.io/badge/Greenkeeper-disabled-9f9f9f.svg?colorA=555&style=for-the-badge)
+    ![Greenkeeper NotFoundbadge](https://img.shields.io/badge/Greenkeeper-not_found-9f9f9f.svg?colorA=555&style=for-the-badge)
+    ![Greenkeeper PayRequiredbadge](https://img.shields.io/badge/Greenkeeper-payment_required-dfb317.svg?colorA=555&style=for-the-badge) 
+
