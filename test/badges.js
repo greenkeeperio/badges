@@ -1,34 +1,31 @@
 const crypto = require('crypto')
-
 const hapi = require('hapi')
-const tap = require('tap')
 
 const register = require('../lib/badges')
 const dbs = require('../lib/dbs')
 
-;(async () => {
+describe('badges', async () => {
   let server
-  tap.beforeEach(async () => {
+
+  beforeEach(async () => {
     server = new hapi.Server()
     server.connection()
     await server.register({register})
   })
 
-  tap.test('returns not found for repo not in db', async (t) => {
+  test('returns not found for repo not in db', async () => {
     const {payload, statusCode} = await server.inject({
       method: 'GET',
       url: '/not/synced.svg'
     })
 
-    t.is(statusCode, 200, 'statusCode')
-    t.ok(payload.includes('not found'))
-    t.ok(payload.includes('Greenkeeper'))
-    t.ok(payload.includes('#555'))
-
-    t.end()
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/not found/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
   })
 
-  tap.test('returns not found for private repo', async (t) => {
+  test('returns not found for private repo', async () => {
     const {repositories, payments} = await dbs()
 
     await repositories.post({
@@ -48,29 +45,25 @@ const dbs = require('../lib/dbs')
       url: '/repo/private.svg'
     })
 
-    t.is(statusCode, 200, 'statusCode')
-    t.ok(payload.includes('not found'))
-    t.ok(payload.includes('Greenkeeper'))
-    t.ok(payload.includes('#555'))
-
-    t.end()
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/not found/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
   })
 
-  tap.test('returns disabled for private repo with token', async (t) => {
+  test('returns disabled for private repo with token', async () => {
     const {payload, statusCode} = await server.inject({
       method: 'GET',
       url: '/repo/private.svg?token=' + crypto.createHmac('sha256', 'badges-secret').update('repo/private').digest('hex')
     })
 
-    t.is(statusCode, 200, 'statusCode')
-    t.ok(payload.includes('disabled'))
-    t.ok(payload.includes('Greenkeeper'))
-    t.ok(payload.includes('#555'))
-
-    t.end()
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/disabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
   })
 
-  tap.test('returns disabled for disabled public repo', async (t) => {
+  test('returns disabled for disabled public repo', async () => {
     const {repositories} = await dbs()
 
     await repositories.post({
@@ -83,15 +76,13 @@ const dbs = require('../lib/dbs')
       url: '/repo/public_disabled.svg'
     })
 
-    t.is(statusCode, 200, 'statusCode')
-    t.ok(payload.includes('disabled'))
-    t.ok(payload.includes('Greenkeeper'))
-    t.ok(payload.includes('#555'))
-
-    t.end()
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/disabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
   })
 
-  tap.test('returns enabled for enabled public repo', async (t) => {
+  test('returns enabled for enabled public repo', async () => {
     const {repositories} = await dbs()
 
     await repositories.post({
@@ -105,15 +96,13 @@ const dbs = require('../lib/dbs')
       url: '/repo/public_enabled.svg'
     })
 
-    t.is(statusCode, 200, 'statusCode')
-    t.ok(payload.includes('enabled'))
-    t.ok(payload.includes('Greenkeeper'))
-    t.ok(payload.includes('#4c1'))
-
-    t.end()
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/enabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#4c1/)
   })
 
-  tap.test('returns payment required for private repo with token', async (t) => {
+  test('returns payment required for private repo with token', async () => {
     const {repositories} = await dbs()
 
     await repositories.post({
@@ -129,15 +118,13 @@ const dbs = require('../lib/dbs')
       url: '/repo/payprivate.svg?token=' + crypto.createHmac('sha256', 'badges-secret').update('repo/payprivate').digest('hex')
     })
 
-    t.is(statusCode, 200, 'statusCode')
-    t.ok(payload.includes('payment required'))
-    t.ok(payload.includes('Greenkeeper'))
-    t.ok(payload.includes('#555'))
-
-    t.end()
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/payment required/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
   })
 
-  tap.test('returns enabled for paid private repo with token', async (t) => {
+  test('returns enabled for paid private repo with token', async () => {
     const {repositories, payments} = await dbs()
 
     await repositories.post({
@@ -159,15 +146,13 @@ const dbs = require('../lib/dbs')
       url: '/repo/payprivate2.svg?token=' + crypto.createHmac('sha256', 'badges-secret').update('123').digest('hex')
     })
 
-    t.is(statusCode, 200, 'statusCode')
-    t.ok(payload.includes('enabled'))
-    t.ok(payload.includes('Greenkeeper'))
-    t.ok(payload.includes('#555'))
-
-    t.end()
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/enabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
   })
 
-  tap.test('returns enabled for paid private repo with token on Gihub Marketplace Team Plan', async (t) => {
+  test('returns enabled for paid private repo with token on Gihub Marketplace Team Plan', async () => {
     const {repositories, payments} = await dbs()
 
     await repositories.post({
@@ -189,15 +174,13 @@ const dbs = require('../lib/dbs')
       url: '/repo/payprivate3.svg?token=' + crypto.createHmac('sha256', 'badges-secret').update('1234').digest('hex')
     })
 
-    t.is(statusCode, 200, 'statusCode')
-    t.ok(payload.includes('enabled'))
-    t.ok(payload.includes('Greenkeeper'))
-    t.ok(payload.includes('#555'))
-
-    t.end()
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/enabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
   })
 
-  tap.test('returns enabled for paid private repo with token on Gihub Marketplace Business plan', async (t) => {
+  test('returns enabled for paid private repo with token on Gihub Marketplace Business plan', async () => {
     const {repositories, payments} = await dbs()
 
     await repositories.post({
@@ -219,11 +202,10 @@ const dbs = require('../lib/dbs')
       url: '/repo/payprivate4.svg?token=' + crypto.createHmac('sha256', 'badges-secret').update('12345').digest('hex')
     })
     console.log('payload', payload)
-    t.is(statusCode, 200, 'statusCode')
-    t.ok(payload.includes('enabled'))
-    t.ok(payload.includes('Greenkeeper'))
-    t.ok(payload.includes('#555'))
 
-    t.end()
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/enabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
   })
-})()
+})
