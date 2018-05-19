@@ -208,4 +208,189 @@ describe('badges', async () => {
     expect(payload).toMatch(/Greenkeeper/)
     expect(payload).toMatch(/#555/)
   })
+
+  test('returns flat style as default style', async () => {
+    const { repositories } = await dbs()
+
+    await repositories.post({
+      type: 'repository',
+      fullName: 'Repo/public_enabled',
+      enabled: true
+    })
+
+    const { payload, statusCode } = await server.inject({
+      method: 'GET',
+      url: '/repo/public_enabled.svg'
+    })
+
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/enabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
+    expect(payload).toMatch(/#4c1/)
+  })
+
+  test('returns flat style if defined', async () => {
+    const { repositories } = await dbs()
+
+    await repositories.post({
+      type: 'repository',
+      fullName: 'Repo/public_enabled?style=flat',
+      enabled: true
+    })
+
+    const { payload, statusCode } = await server.inject({
+      method: 'GET',
+      url: '/repo/public_enabled.svg'
+    })
+
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/enabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
+    expect(payload).toMatch(/#4c1/)
+  })
+
+  test('returns flat style if style not supported', async () => {
+    const { repositories } = await dbs()
+
+    await repositories.post({
+      type: 'repository',
+      fullName: 'Repo/public_enabled?style=circle',
+      enabled: true
+    })
+
+    const { payload, statusCode } = await server.inject({
+      method: 'GET',
+      url: '/repo/public_enabled.svg'
+    })
+
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/enabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
+    expect(payload).toMatch(/#4c1/)
+  })
+
+  test('returns flat-square style', async () => {
+    const { repositories } = await dbs()
+
+    await repositories.post({
+      type: 'repository',
+      fullName: 'Repo/public_enabled',
+      enabled: true
+    })
+
+    const { payload, statusCode } = await server.inject({
+      method: 'GET',
+      url: '/repo/public_enabled.svg?style=flat-square'
+    })
+
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/enabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
+    expect(payload).toMatch(/#4c1/)
+  })
+
+  test('returns plastic style', async () => {
+    const { repositories } = await dbs()
+
+    await repositories.post({
+      type: 'repository',
+      fullName: 'Repo/public_enabled',
+      enabled: true
+    })
+
+    const { payload, statusCode } = await server.inject({
+      method: 'GET',
+      url: '/repo/public_enabled.svg?style=plastic'
+    })
+
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/enabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
+    expect(payload).toMatch(/#4c1/)
+  })
+
+  test('returns for-the-badge style', async () => {
+    const { repositories } = await dbs()
+
+    await repositories.post({
+      type: 'repository',
+      fullName: 'Repo/public_enabled',
+      enabled: true
+    })
+
+    const { payload, statusCode } = await server.inject({
+      method: 'GET',
+      url: '/repo/public_enabled.svg?style=for-the-badge'
+    })
+
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/enabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
+    expect(payload).toMatch(/#4c1/)
+  })
+
+  test('returns correct flat-square style even if used with other query', async () => {
+    const { repositories, payments } = await dbs()
+
+    await repositories.post({
+      _id: '124',
+      type: 'repository',
+      fullName: 'repo/payprivate5',
+      private: true,
+      enabled: true,
+      accountId: '431414'
+    })
+
+    await payments.put({
+      _id: '431414',
+      plan: 'team'
+    })
+
+    const {payload, statusCode} = await server.inject({
+      method: 'GET',
+      url: `/repo/payprivate5.svg?token=${crypto.createHmac('sha256', 'badges-secret').update('124').digest('hex')}&style=flat-square`
+    })
+
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/enabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/crispEdges/)
+    expect(payload).toMatch(/#555/)
+    expect(payload).toMatch(/#4c1/)
+  })
+
+  test('returns correct plastic style even if used with other query', async () => {
+    const { repositories, payments } = await dbs()
+
+    await repositories.post({
+      _id: '1234567',
+      type: 'repository',
+      fullName: 'repo/payprivate6',
+      private: true,
+      enabled: true,
+      accountId: '431413434'
+    })
+
+    await payments.put({
+      _id: '431413434',
+      plan: 'business'
+    })
+
+    const { payload, statusCode } = await server.inject({
+      method: 'GET',
+      url: `/repo/payprivate6.svg?token=${crypto.createHmac('sha256', 'badges-secret').update('1234567').digest('hex')}&style=plastic`
+    })
+
+    expect(statusCode).toBe(200)
+    expect(payload).toMatch(/enabled/)
+    expect(payload).toMatch(/Greenkeeper/)
+    expect(payload).toMatch(/#555/)
+    expect(payload).toMatch(/#4c1/)
+  })
 })
