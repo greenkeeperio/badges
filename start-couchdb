@@ -3,7 +3,6 @@
 # immediately fail if an error occurs
 set -e
 
-
 if [[ -n "$GK_COUCHDB" ]]; then
   echo "Using existing CouchDB on :5984"
   curl -sX DELETE $GK_COUCHDB/{installations,npm,payments,repositories}-staging 2>&1 > /dev/null
