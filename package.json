@@ -13,7 +13,7 @@
     "hot-shots": "^5.0.0",
     "lodash": "^4.16.2",
     "pouchdb-http": "^6.0.2",
-    "pouchdb-mapreduce": "^6.4.3",
+    "pouchdb-mapreduce": "^7.2.1",
     "rollbar": "^2.3.9"
   },
   "devDependencies": {
